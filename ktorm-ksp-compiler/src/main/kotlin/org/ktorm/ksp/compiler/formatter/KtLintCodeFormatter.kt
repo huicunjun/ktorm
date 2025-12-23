@@ -17,16 +17,17 @@
 package org.ktorm.ksp.compiler.formatter
 
 import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
-import com.pinterest.ktlint.cli.ruleset.core.api.RuleSetProviderV3
-import com.pinterest.ktlint.rule.engine.api.Code
-import com.pinterest.ktlint.rule.engine.api.EditorConfigDefaults
-import com.pinterest.ktlint.rule.engine.api.KtLintRuleEngine
-import org.ec4j.core.EditorConfigLoader
-import org.ec4j.core.Resource.Resources
+//import com.pinterest.ktlint.cli.ruleset.core.api.RuleSetProviderV3
+//import com.pinterest.ktlint.rule.engine.api.Code
+//import com.pinterest.ktlint.rule.engine.api.EditorConfigDefaults
+//import com.pinterest.ktlint.rule.engine.api.KtLintRuleEngine
+//import org.ec4j.core.EditorConfigLoader
+//import org.ec4j.core.Resource.Resources
 import java.util.*
+import kotlin.jvm.java
 
 internal class KtLintCodeFormatter(val environment: SymbolProcessorEnvironment) : CodeFormatter {
-    private val ktLintRuleEngine = KtLintRuleEngine(
+    /*private val ktLintRuleEngine = KtLintRuleEngine(
         ruleProviders = ServiceLoader
             .load(RuleSetProviderV3::class.java, javaClass.classLoader)
             .flatMap { it.getRuleProviders() }
@@ -36,7 +37,7 @@ internal class KtLintCodeFormatter(val environment: SymbolProcessorEnvironment) 
                 Resources.ofClassPath(javaClass.classLoader, "/ktorm-ksp-compiler/.editorconfig", Charsets.UTF_8)
             )
         )
-    )
+    )*/
 
     override fun format(fileName: String, code: String): String {
         try {
@@ -50,7 +51,7 @@ internal class KtLintCodeFormatter(val environment: SymbolProcessorEnvironment) 
                 .replace(Regex("""\s+=\s+"""), " = ")
                 .replace("import org.ktorm.ksp.`annotation`", "import org.ktorm.ksp.annotation")
 
-            return ktLintRuleEngine.format(Code.fromSnippet(snippet))
+            return snippet
         } catch (e: Throwable) {
             environment.logger.exception(e)
             return code
